@@ -18,7 +18,7 @@ public class MoviesController : ControllerBase
         _movieService = movieService;
     }
 
-    [Authorize(AuthConstants.AdminUserPolicyName)]
+    [Authorize(AuthConstants.TrustedMemberPolicyName)]
     [HttpPost(ApiEndpoints.Movies.Create)]
     public async Task<IActionResult> Create([FromBody] CreateMovieRequest request, 
         CancellationToken token)
@@ -57,7 +57,7 @@ public class MoviesController : ControllerBase
         return Ok(moviesResponse);
     }
 
-    [Authorize("Admin")]
+    [Authorize(AuthConstants.TrustedMemberPolicyName)]
     [HttpPut(AuthConstants.AdminUserPolicyName)]
     public async Task<IActionResult> Update([FromRoute] Guid id,
         [FromBody] UpdateMovieRequest request,
