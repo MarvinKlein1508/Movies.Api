@@ -33,7 +33,7 @@ public static class ContractMapping
     {
         return new MovieResponse
         {
-            Id = Guid.NewGuid(),
+            Id = movie.Id,
             Slug = movie.Slug,
             Title = movie.Title,
             YearOfRelease = movie.YearOfRelease,

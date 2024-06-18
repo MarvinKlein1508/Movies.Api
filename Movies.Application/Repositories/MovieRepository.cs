@@ -92,7 +92,7 @@ public class MovieRepository : IMovieRepository
         {
             Id = x.id,
             Title = x.title,
-            YearOfRelease = x.yearOfRelease,
+            YearOfRelease = x.yearofrelease,
             Genres = Enumerable.ToList(x.genres.Split(','))
         });
     }
@@ -163,18 +163,23 @@ public class MovieRepository : IMovieRepository
             delete from genres where movieId = @id
             """, new { id = movie.Id });
 
+        await connection.ExecuteAsync(command);
+
         foreach (var genre in movie.Genres)
         {
             command = new CommandDefinition("""
                 insert into genres (movieId, name)
                 values (@MovieId, @Name)
                 """, new { MovieId = movie.Id, Name = genre });
+
+            await connection.ExecuteAsync(command);   
         }
 
         command = new CommandDefinition("""
             update movies set slug = @Slug, title = @Title, yearofrelease = @YearOfRelease
             where id = @Id
             """, movie);
+
         var result = await connection.ExecuteAsync(command);
 
         transaction.Commit();
