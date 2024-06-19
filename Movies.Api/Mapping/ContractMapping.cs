@@ -1,5 +1,5 @@
 ﻿using Movies.Application.Models;
-using Movies.Contracts.Requests;
+using Movies.Contracts.Requests.V1;
 using Movies.Contracts.Responses;
 using System.Runtime.CompilerServices;
 
