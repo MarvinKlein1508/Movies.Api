@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Movies.Api.Auth;
 using Movies.Api.Mapping;
 using Movies.Application.Services;
-using Movies.Contracts.Requests.V1;
+using Movies.Contracts.Requests;
 
 namespace Movies.Api.Controllers.V1;
 
