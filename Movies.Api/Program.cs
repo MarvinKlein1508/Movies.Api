@@ -4,7 +4,10 @@ using Movies.Api.Auth;
 using Movies.Api.Mapping;
 using Movies.Application;
 using Movies.Application.Database;
+using Movies.Application.Models;
+using Movies.Application.Services;
 using System.Text;
+using System.Text.Json;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
@@ -65,5 +68,16 @@ app.MapControllers();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 await dbInitializer.InitializeAsync();
+
+
+// Import movies.json
+//var movieService = app.Services.GetRequiredService<IMovieService>();
+//string json = await File.ReadAllTextAsync("movies.json");
+//var movies = JsonSerializer.Deserialize<List<Movie>>(json);
+
+//foreach (var movie in movies)
+//{
+//    await movieService.CreateAsync(movie);
+//}
 
 app.Run();
