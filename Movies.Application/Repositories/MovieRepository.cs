@@ -80,7 +80,18 @@ public class MovieRepository : IMovieRepository
     public async Task<IEnumerable<Movie>> GetAllAsync(GetAllMoviesOptions options, CancellationToken token = default)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
-        var command = new CommandDefinition("""
+
+        var orderClause = string.Empty;
+
+        if (options.SortField is not null)
+        {
+            orderClause = $"""
+                , m.{options.SortField}
+                order by m.{options.SortField} {(options.SortOrder == SortOrder.Ascending ? "asc" : "desc")}
+                """;
+        }
+
+        var command = new CommandDefinition($"""
             select 
                 m.*, 
                 string_agg(distinct g.name, ',') as genres,
@@ -92,9 +103,9 @@ public class MovieRepository : IMovieRepository
             left join ratings myr on (m.id = myr.movieid and myr.userid = @userId)
             where (@title is null or m.title like ('%' || @title || '%'))
             and (@yearofrelease is null or m.yearofrelease = @yearofrelease)
-            group by id, myr.rating
-            """, new 
-        { 
+            group by id, myr.rating {orderClause}
+            """, new
+        {
             userId = options.UserId,
             title = options.Title,
             yearofrelease = options.YearOfRelease,
@@ -204,7 +215,7 @@ public class MovieRepository : IMovieRepository
                 values (@MovieId, @Name)
                 """, new { MovieId = movie.Id, Name = genre }, cancellationToken: token);
 
-            await connection.ExecuteAsync(command);   
+            await connection.ExecuteAsync(command);
         }
 
         command = new CommandDefinition("""
