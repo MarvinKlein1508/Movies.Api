@@ -20,8 +20,8 @@ public class MoviesController : ControllerBase
         _outputCacheStore = outputCacheStore;
     }
 
-    [ServiceFilter(typeof(ApiKeyAuthFilter))]
-    //[Authorize(AuthConstants.TrustedMemberPolicyName)]
+    //[ServiceFilter(typeof(ApiKeyAuthFilter))]
+    [Authorize(AuthConstants.TrustedMemberPolicyName)]
     [HttpPost(ApiEndpoints.Movies.Create)]
     public async Task<IActionResult> Create([FromBody] CreateMovieRequest request,
         CancellationToken token)
