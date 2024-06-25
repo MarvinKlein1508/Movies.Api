@@ -44,5 +44,6 @@ public class AdminAuthRequirement : IAuthorizationHandler, IAuthorizationRequire
         // This GUID is tied to the api key user id. In a real app this information would come from some sort of database
         identity.AddClaim(new Claim("userId", Guid.Parse("632237e0-7370-4b37-b3ea-11126c85da5e").ToString()));
         context.Succeed(this);
+        return Task.CompletedTask;
     }
 }
