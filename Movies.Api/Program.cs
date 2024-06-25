@@ -43,6 +43,15 @@ builder.Services.AddAuthorization(x =>
 
 //builder.Services.AddResponseCaching(); // Response caching are just instruction which can be bypassed by the client if he wants. To get more control we can use output caching
 
+builder.Services.AddOutputCache(x =>
+{
+    x.AddBasePolicy(c => c.Cache());
+    x.AddPolicy("MovieCache", c => c.Cache()
+        .Expire(TimeSpan.FromMinutes(1))
+        .SetVaryByQuery(["title", "yearofrelease", "sortBy", "page", "pageSize"])
+        .Tag("movies")); // is being used to evict the cache on create, delete or update
+});
+
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks()
     .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
@@ -72,6 +81,7 @@ app.UseAuthorization();
 
 //app.UseCors();
 //app.UseResponseCaching();
+app.UseOutputCache(); // only 200ok are cached only get and head requests and no authorized requests are being cached
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 
