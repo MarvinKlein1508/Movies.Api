@@ -41,6 +41,8 @@ builder.Services.AddAuthorization(x =>
 });
 // Add services to the container.
 
+builder.Services.AddScoped<ApiKeyAuthFilter>();
+
 //builder.Services.AddResponseCaching(); // Response caching are just instruction which can be bypassed by the client if he wants. To get more control we can use output caching
 
 builder.Services.AddOutputCache(x =>
