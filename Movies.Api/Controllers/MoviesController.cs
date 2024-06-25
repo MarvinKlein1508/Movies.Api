@@ -30,7 +30,7 @@ public class MoviesController : ControllerBase
 
 
     [HttpGet(ApiEndpoints.Movies.Get)]
-    [ResponseCache(Duration = 30, VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Any)]
+    //[ResponseCache(Duration = 30, VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Any)]
     public async Task<IActionResult> Get([FromRoute] string idOrSlug,
         CancellationToken token)
     {
@@ -51,7 +51,7 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet(ApiEndpoints.Movies.GetAll)]
-    [ResponseCache(Duration = 30, VaryByQueryKeys = ["title", "yearofrelease", "sortBy", "page", "pageSize"], VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Any)]
+    //[ResponseCache(Duration = 30, VaryByQueryKeys = ["title", "yearofrelease", "sortBy", "page", "pageSize"], VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Any)]
     public async Task<IActionResult> GetAll([FromQuery] GetAllMoviesRequest request, CancellationToken token)
     {
         var userId = HttpContext.GetUserId();

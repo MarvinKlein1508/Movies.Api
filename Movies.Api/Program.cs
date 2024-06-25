@@ -41,7 +41,7 @@ builder.Services.AddAuthorization(x =>
 });
 // Add services to the container.
 
-builder.Services.AddResponseCaching();
+//builder.Services.AddResponseCaching(); // Response caching are just instruction which can be bypassed by the client if he wants. To get more control we can use output caching
 
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks()
@@ -71,7 +71,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 //app.UseCors();
-app.UseResponseCaching();
+//app.UseResponseCaching();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 
