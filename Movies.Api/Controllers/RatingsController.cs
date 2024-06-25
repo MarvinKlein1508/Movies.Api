@@ -5,7 +5,7 @@ using Movies.Api.Mapping;
 using Movies.Application.Services;
 using Movies.Contracts.Requests;
 
-namespace Movies.Api.Controllers.V1;
+namespace Movies.Api.Controllers;
 
 [ApiController]
 public class RatingsController : ControllerBase
@@ -18,7 +18,7 @@ public class RatingsController : ControllerBase
     }
 
     [Authorize]
-    [HttpPut(ApiEndpoints.V1.Movies.Rate)]
+    [HttpPut(ApiEndpoints.Movies.Rate)]
     public async Task<IActionResult> RateMovie([FromRoute] Guid id,
         [FromBody] RateMovieRequest request,
         CancellationToken token)
@@ -30,7 +30,7 @@ public class RatingsController : ControllerBase
     }
 
     [Authorize]
-    [HttpDelete(ApiEndpoints.V1.Movies.DeleteRating)]
+    [HttpDelete(ApiEndpoints.Movies.DeleteRating)]
     public async Task<IActionResult> DeleteRating([FromRoute] Guid id,
         CancellationToken token)
     {
@@ -41,7 +41,7 @@ public class RatingsController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet(ApiEndpoints.V1.Ratings.GetUserRatings)]
+    [HttpGet(ApiEndpoints.Ratings.GetUserRatings)]
     public async Task<IActionResult> GetUserRatings(CancellationToken token)
     {
         var userId = HttpContext.GetUserId();
