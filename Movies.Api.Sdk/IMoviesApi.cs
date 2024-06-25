@@ -3,6 +3,7 @@ using Movies.Contracts.Responses;
 using Refit;
 
 namespace Movies.Api.Sdk;
+[Headers("Authorization: Bearer")]
 public interface IMoviesApi
 {
     [Get(ApiEndpoints.Movies.Get)]

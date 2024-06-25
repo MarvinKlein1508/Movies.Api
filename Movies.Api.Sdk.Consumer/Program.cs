@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Microsoft.Extensions.DependencyInjection;
 using Movies.Api.Sdk;
+using Movies.Api.Sdk.Consumer;
 using Movies.Contracts.Requests;
 using Refit;
 using System.Text.Json;
@@ -8,7 +9,13 @@ using System.Text.Json;
 //var moviesApi = RestService.For<IMoviesApi>("https://localhost:5001");
 
 var services = new ServiceCollection();
-services.AddRefitClient<IMoviesApi>()
+services
+    .AddHttpClient()
+    .AddSingleton<AuthTokenProvider>()
+    .AddRefitClient<IMoviesApi>(s => new RefitSettings
+    {
+        AuthorizationHeaderValueGetter = async (t, token) => await s.GetRequiredService<AuthTokenProvider>().GetTokenAsync(token)
+    })
     .ConfigureHttpClient(x =>
     {
         x.BaseAddress = new Uri("https://localhost:5001");
